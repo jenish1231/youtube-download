@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import click
+from subprocess import call
+import os
+
+def download(var,format = 136):
+    list = []
+
+    for i in range(int(var)):
+        x = click.prompt("Video[{}]".format(i),type=str)
+        list.append(x)
+    for i in range(len(list)):
+        try:
+            os.system('youtube-dl {} -f {}'.format(list[i],format))
+        except:
+            print("Something wrong")
+
+
+@click.command()
+@click.option('-n',help = 'Total no of videos',type = int)
+@click.option('-f',help = 'Format of the video',type = int)
+
+def main(n,f):
+    """
+        Allows to create a list of videos you want to download\n
+        Example :
+            python youtbe-download.py -n <no_of_videos> -f <format>
+
+        Formats:\n
+            160 mp4 144p\n
+            133 mp4 240p\n
+            134 mp4 360p\n
+            135 mp4 480p\n
+            136 mp4 720p
+        
+        python youtube-download.py -n <no_of_videos> -f 136
+    """
+    if n is not None and f is not None:
+        download(n,f)
+    else:
+        print("parameters cannot be null")
+
+if __name__ == '__main__':
+    main()
